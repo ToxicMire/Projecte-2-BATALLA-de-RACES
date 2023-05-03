@@ -1,6 +1,6 @@
 # Projecte-3-BATALLA-de-RACES
 
-Este es el Github dedicado a el ´Proyecto numero 3´ del Grado Superior de diseño de aplicaciones web y multiplataforma  
+Este es el Github dedicado a el `Proyecto numero 3` del Grado Superior de diseño de aplicaciones web y multiplataforma  
 
 Esto es la explicación del proyecto: 
 
