@@ -19,6 +19,15 @@ public class WarriorContainer {
 		this.warriorRace = warriorRace;
 	}
 
+	@Override
+	public String toString() {
+		return "WarriorContainer [warriorId=" + warriorId + ", warriorHP=" + warriorHP + ", warriorStrength="
+				+ warriorStrength + ", warriorDefense=" + warriorDefense + ", warriorAgility=" + warriorAgility
+				+ ", warrioirSpeed=" + warrioirSpeed + ", warriorPoints=" + warriorPoints + ", warriorName="
+				+ warriorName + ", warriorStringPathImage=" + warriorStringPathImage + ", warriorRace=" + warriorRace
+				+ "]";
+	}
+
 	public int getWarriorId() {
 		return warriorId;
 	}

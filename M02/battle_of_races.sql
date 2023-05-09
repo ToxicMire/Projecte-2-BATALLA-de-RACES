@@ -68,15 +68,15 @@ alter table BATTLE
     
 /* INSERTS */
 insert into WEAPONS (WEAPON_NAME,WEAPON_POINTS,WEAPON_IMAGE_PATH) values
-	("Dagger",10,"dagger.jpg"),
-	("Sword",10,"sword.jpg"),
+	("Dagger",10,"dagger.jpeg"),
+	("Sword",10,"sword.jpeg"),
 	("Axe",10,"axe.jpg"),
 	("Dual Swords",14,"dualSwords.jpg"),
 	("Scimitar",14,"scimitar.jpg"),
-	("bow",15,"bow.jpg"),
+	("bow",15,"bow.png"),
 	("Katana",18,"katana.jpg"),
-	("Dirk",12,"dirk.jpg"),
-	("Double-handed Axe",20,"double-handedAxe.jpg");
+	("Dirk",12,"dirk.jpeg"),
+	("Double-handed Axe",20,"double-handedAxe.png");
     
 insert into RACES (RACE_NAME,RACE_POINTS,RACE_HP,RACE_STRENGTH,RACE_DEFENSE,RACE_AGILITY,RACE_SPEED) values
 	("Dwarf",20,60,6,4,5,3),
@@ -101,3 +101,15 @@ insert into WEAPONS_AVAILABLE (WEAPON_ID,RACE_ID) values
     (8,2),
     (8,3),
     (9,1);
+    
+insert into WARRIORS (WARRIOR_NAME,WARRIOR_IMAGE_PATH,WARRIORS_RACE_ID) values
+	("Gimli","enanoGimli.jpg",1),
+	("Thorin","enanoThorin.jpg",1),
+	("Dwalin","enanoDwalin.jpg",1),
+    ("Aragorn","humanoAragorn.jpg",2),
+	("Galadriel","humanoGaladriel.jpg",2),
+	("Elric","humanoElric.jpg",2),
+	("Legolas","elfoLegolas.jpg",3),
+	("Arwen","elfoArwen.jpg",3),
+	("Eowyn","elfoEowyn.jpg",3)
+    ;

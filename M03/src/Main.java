@@ -6,14 +6,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Main {
-	private ArrayList<WarriorContainer> warrioirs = new ArrayList<WarriorContainer>();
-	private ArrayList<WeaponContainer> weapons = new ArrayList<WeaponContainer>();
-
+	
 	public static void main(String[] args) {
+		//Variables
+		ArrayList<WarriorContainer> warrioirs = new ArrayList<WarriorContainer>();
+		ArrayList<WeaponContainer> weapons = new ArrayList<WeaponContainer>();
+		
+		//Conexiones BBDD
 		String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
 		String usuario = "admin";
 		String pass = "admin123";
-		String query = "select * from WARRIORS";
+		String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME from WARRIORS w inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID;";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -22,8 +25,17 @@ public class Main {
 			
 			ResultSet rs = stmnt.executeQuery(query);
 			
-			rs.next();
-			System.out.println("ID = " + rs.getInt(1) + ", Nombre = " + rs.getString(2) + ", URL = " + rs.getString(3));
+			while(rs.next()) {
+				warrioirs.add(new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
+						, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10)));
+				
+				//System.out.println(rs.getInt(1) + " - " + rs.getInt(2) + " - " + rs.getInt(3) + " - " + rs.getInt(4) + " - "+ rs.getInt(5) + " - " + rs.getInt(6) + " - " + rs.getInt(7) + " - " + rs.getString(8) + " - " + rs.getString(9) + " - " + rs.getString(10));
+			}
+			
+			for(WarriorContainer i:warrioirs) {
+				System.out.println(i);
+			}
+			
 			
 			
 			
