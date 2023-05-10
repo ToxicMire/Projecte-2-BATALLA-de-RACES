@@ -31,10 +31,9 @@ public class Main {
 						, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10)));
 			}
 
-			//for(WarriorContainer i:warrioirs) {
-			//	System.out.println(i);
-			//}
-
+//			for(WarriorContainer i:warrioirs) {
+//				System.out.println(i);
+//			}
 //			for(int i = 0;i < 9; i++) {
 //				System.out.println("./images/warriors/"+warrioirs.get(i).getWarriorStringPathImage());
 //			}

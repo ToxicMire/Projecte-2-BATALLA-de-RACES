@@ -19,7 +19,7 @@ public class FrameWarriors extends JFrame{
 			warriorsArray[i] = new JButton();
 			warriorsArray[i].setSize(150,150);
 			
-			miIcono = new ImageIcon("./images/warriors/"+warrioirs.get(i).getWarriorStringPathImage());
+			miIcono = new ImageIcon("./images/warriors/redimen/"+warrioirs.get(i).getWarriorStringPathImage());
 			warriorsArray[i].setIcon(miIcono);
 			
 			int indice = i;
