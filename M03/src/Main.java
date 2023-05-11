@@ -17,7 +17,7 @@ public class Main {
 		String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
 		String usuario = "admin";
 		String pass = "admin123";
-		String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME from WARRIORS w inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID;";
+		String query = "select w.WEAPON_ID,w.WEAPON_POINTS,w.WEAPON_STRENGTH,w.WEAPON_SPEED,w.WEAPON_NAME,w.WEAPON_IMAGE_PATH from WEAPONS w inner join WEAPONS_AVAILABLE wa on wa.WEAPON_ID=w.WEAPON_ID where wa.RACE_ID = 2;";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -27,19 +27,11 @@ public class Main {
 			ResultSet rs = stmnt.executeQuery(query);
 
 			while(rs.next()) {
-				warrioirs.add(new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
-						, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10)));
+				
+				weapons.add(new WeaponContainer(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getString(6)));
 			}
 
-//			for(WarriorContainer i:warrioirs) {
-//				System.out.println(i);
-//			}
-//			for(int i = 0;i < 9; i++) {
-//				System.out.println("./images/warriors/"+warrioirs.get(i).getWarriorStringPathImage());
-//			}
-
-
-			new FrameWarriors(warrioirs);
+			new FrameWarriors(weapons);
 
 
 

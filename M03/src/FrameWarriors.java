@@ -6,42 +6,48 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class FrameWarriors extends JFrame{
-	private JButton[] warriorsArray = new JButton[9]; 
-	private JPanel masterPanel;
+	private JButton[] weaponsArray;
+	private JPanel masterPanel, panelPendejo;
 	private ImageIcon miIcono;
 
 
-	public FrameWarriors(ArrayList<WarriorContainer> warrioirs) {
+	public FrameWarriors(ArrayList<WeaponContainer> weapons) {
 		masterPanel = new JPanel();
 		masterPanel.setLayout(new GridLayout(3,3));
+		
+		panelPendejo = new JPanel();
+		panelPendejo.setLayout(new BoxLayout(panelPendejo,BoxLayout.Y_AXIS));
+		
+		weaponsArray = new JButton[weapons.size()]; 
 
-		for(int i = 0; i < warriorsArray.length; i++) {
-			warriorsArray[i] = new JButton();
-			warriorsArray[i].setSize(150,150);
+		for(int i = 0; i < weaponsArray.length; i++) {
+			weaponsArray[i] = new JButton();
+			miIcono = new ImageIcon("./images/weapons/redimen/"+weapons.get(i).getWeaponImagePath());
+			weaponsArray[i].setSize(150,150);
 			
-			miIcono = new ImageIcon("./images/warriors/redimen/"+warrioirs.get(i).getWarriorStringPathImage());
-			warriorsArray[i].setIcon(miIcono);
+			weaponsArray[i].setIcon(miIcono);
 			
 			int indice = i;
 			
-			warriorsArray[i].addActionListener(new ActionListener() {
+			weaponsArray[i].addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println(indice);
+					System.out.println(weapons.get(indice));
 					
 				}
 			});
 			
 
-			masterPanel.add(warriorsArray[i]);
+			masterPanel.add(weaponsArray[i]);
 		}
 	
+		panelPendejo.add(masterPanel);
 //		Configuraciones del JFrame
-		this.add(masterPanel);
+		this.add(panelPendejo);
 		
 		this.setTitle("Select your Warrior");
-		this.setSize(450,450);
-//		this.pack();
+//		this.setSize(450,450);
+		this.pack();
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
