@@ -40,8 +40,8 @@ class FrameMain extends JFrame {
 
 	//Programa
 	private JButton[] warriorsArray,weaponsArray;
-	private WarriorContainer warriorPlayer;
-	private WeaponContainer weaponPlayer;
+	private WarriorContainer warriorPlayer,warriorBot;
+	private WeaponContainer weaponPlayer,weaponBot;
 
 	private boolean warriorSelected = false,weaponSelected = false;
 
@@ -56,8 +56,12 @@ class FrameMain extends JFrame {
 		//Variables
 		//Panels
 		panel = new JPanel();
+		panel.setBackground(Color.black);
+		
 		panelMain = new JPanel();
 		panelMain.setLayout(new BoxLayout(panelMain,BoxLayout.Y_AXIS));
+		
+		panelMain.setBackground(Color.black);
 
 		panelWarriors = new JPanel();
 		panelWarriors.setLayout(new GridLayout(3,3));
@@ -343,11 +347,11 @@ class FrameMain extends JFrame {
 							ImageIcon warriorImage = new ImageIcon("./images/warriors/big/"+warriorPlayer.getWarriorStringPathImage());
 
 							jlabelYouCharacter.setIcon(warriorImage);
-							
+
 							weaponSelected = false;
 							ImageIcon withoutWeapon = new ImageIcon("./images/XSmall.png");
 							jlabelYouWeapon.setIcon(withoutWeapon);
-							
+
 							progressBarPlayerPower.setValue(0);
 							progressBarPlayerAgility.setValue(0);
 							progressBarPlayerSpeed.setValue(0);
@@ -372,7 +376,7 @@ class FrameMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if(warriorSelected) {
-					/*Principio*/
+					
 					panelMain.setVisible(false);
 
 					ImageIcon miIcono;
@@ -440,14 +444,97 @@ class FrameMain extends JFrame {
 					}
 
 					panelWeapons.setVisible(true);
-					/*fin*/
+
 				}else {
 
 				}
 
 			}
 		});
+		
+		buttonRanking.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Ranking();
+				
+			}
+		});
 
+		buttonFight.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(warriorSelected && weaponSelected) {
+					//Query select random warrior for a bot
+					String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME \n"
+							+ "from WARRIORS w \n"
+							+ "inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID\n"
+							+ "order by rand()\n"
+							+ "limit 1;";
+
+					try {
+						Class.forName("com.mysql.cj.jdbc.Driver");
+						Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
+						Statement stmnt = conn.createStatement();
+
+						ResultSet rs = stmnt.executeQuery(query);
+
+						rs.next();
+
+						warriorBot = new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
+								, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10));
+						
+						
+						//Select random weapon for a bot
+						query = "select w.WEAPON_ID,w.WEAPON_POINTS,w.WEAPON_STRENGTH,w.WEAPON_SPEED,w.WEAPON_NAME,w.WEAPON_IMAGE_PATH \n"
+								+ "from WEAPONS w \n"
+								+ "inner join WEAPONS_AVAILABLE wa on wa.WEAPON_ID=w.WEAPON_ID\n"
+								+ "where wa.RACE_ID = (select RACE_ID from RACES where RACE_NAME = '"+warriorBot.getWarriorRace()+"')\n"
+								+ "order by rand()\n"
+								+ "limit 1;";
+						
+						rs = stmnt.executeQuery(query);
+						
+						rs.next();
+						
+						weaponBot = new WeaponContainer(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getString(6));
+						
+						//Set bot images
+						ImageIcon warrioirImage = new ImageIcon("./images/warriors/big/"+warriorBot.getWarriorStringPathImage());
+						ImageIcon weaponImage = new ImageIcon("./images/weapons/redimen/"+weaponBot.getWeaponImagePath());
+						
+						jlabelBotCharacter.setIcon(warrioirImage);
+						jlabelBotWeapon.setIcon(weaponImage);
+						
+						//Set bot stats
+						int power = warriorBot.getWarriorStrength() + weaponBot.getWeaponStrength();
+						int agility = warriorBot.getWarriorAgility();
+						int speed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+						int defense = warriorBot.getWarriorDefense();
+
+						progressBarBotPower.setValue(power);
+						progressBarBotAgility.setValue(agility);
+						progressBarBotSpeed.setValue(speed);
+						progressBarBotDefense.setValue(defense);
+						
+
+					} catch (ClassNotFoundException e1) {
+						System.out.println("Driver no se ha cargado correctamente!!");		
+					} catch (SQLException e1) {
+						System.out.println("Se ha lanzado una SQLException!!");
+						e1.printStackTrace();
+					}
+				}else {
+
+				}
+
+
+
+			}
+		});
+
+		//AddPanels
 		panelMain.add(panelButtons1);
 		panelMain.add(panelCharacters);
 		panelMain.add(panelButtons2);
