@@ -8,7 +8,9 @@ create table WEAPONS (
 WEAPON_ID INT AUTO_INCREMENT PRIMARY KEY,
 WEAPON_NAME  VARCHAR(256),
 WEAPON_POINTS INT,
-WEAPON_IMAGE_PATH VARCHAR(256)
+WEAPON_IMAGE_PATH VARCHAR(256),
+WEAPON_STRENGTH INT,
+WEAPON_SPEED INT
 );
 
 create table WARRIORS(
@@ -67,16 +69,16 @@ alter table BATTLE
     add constraint FOREIGN KEY (OPPONENT_WEAPON_ID) REFERENCES WEAPONS(WEAPON_ID);
     
 /* INSERTS */
-insert into WEAPONS (WEAPON_NAME,WEAPON_POINTS,WEAPON_IMAGE_PATH) values
-	("Dagger",10,"dagger.jpeg"),
-	("Sword",10,"sword.jpeg"),
-	("Axe",10,"axe.jpg"),
-	("Dual Swords",14,"dualSwords.jpg"),
-	("Scimitar",14,"scimitar.jpg"),
-	("bow",15,"bow.png"),
-	("Katana",18,"katana.jpg"),
-	("Dirk",12,"dirk.jpeg"),
-	("Double-handed Axe",20,"double-handedAxe.png");
+insert into WEAPONS (WEAPON_NAME,WEAPON_POINTS,WEAPON_IMAGE_PATH,WEAPON_STRENGTH,WEAPON_SPEED) values
+	("Dagger",10,"dagger.png",0,3),
+	("Sword",10,"sword.png",1,1),
+	("Axe",10,"axe.png",3,0),
+	("Dual Swords",14,"dualSwords.png",2,2),
+	("Scimitar",14,"scimitar.png",1,2),
+	("Bow",15,"bow.png",1,5),
+	("Katana",18,"katana.png",2,3),
+	("Dirk",12,"dirk.png",0,4),
+	("Double-handed Axe",20,"double-handedAxe.png",5,0);
     
 insert into RACES (RACE_NAME,RACE_POINTS,RACE_HP,RACE_STRENGTH,RACE_DEFENSE,RACE_AGILITY,RACE_SPEED) values
 	("Dwarf",20,60,6,4,5,3),
@@ -103,13 +105,33 @@ insert into WEAPONS_AVAILABLE (WEAPON_ID,RACE_ID) values
     (9,1);
     
 insert into WARRIORS (WARRIOR_NAME,WARRIOR_IMAGE_PATH,WARRIORS_RACE_ID) values
-	("Gimli","enanoGimli.jpg",1),
-	("Thorin","enanoThorin.jpg",1),
-	("Dwalin","enanoDwalin.jpg",1),
-    ("Aragorn","humanoAragorn.jpg",2),
-	("Galadriel","humanoGaladriel.jpg",2),
-	("Elric","humanoElric.jpg",2),
-	("Legolas","elfoLegolas.jpg",3),
-	("Arwen","elfoArwen.jpg",3),
-	("Eowyn","elfoEowyn.jpg",3)
+	("Gimli","enanoGimli.png",1),
+	("Thorin","enanoThorin.png",1),
+	("Dwalin","enanoDwalin.png",1),
+    ("Aragorn","humanoAragorn.png",2),
+	("Galadriel","humanoGaladriel.png",2),
+	("Elric","humanoElric.png",2),
+	("Legolas","elfoLegolas.png",3),
+	("Arwen","elfoArwen.png",3),
+	("Eowyn","elfoEowyn.png",3)
     ;
+    
+insert into PLAYERS (PLAYER_NAME) VALUE
+("Pepe"),("Pepa"),("Pape"),("Papa"),("Apap"),("Epep"),("Apep"),("Epap"),("Eppa"),("Eppe"),("Appa"),("Juan");
+
+insert into BATTLE (PLAYER_ID,WARRIOR_ID,WARRIOR_WEAPON_ID,OPPONENT_ID,OPPONENT_WEAPON_ID,INJURIES_CAUSED,INJURIES_SUFFERED,BATTLE_POINTS) VALUES
+(1,1,1,2,2,1000,500,1500),
+(1,1,1,2,2,2000,1000,3000),
+(1,1,1,2,2,1000,1000,2000),
+(2,1,1,2,3,1000,200,1200),
+(3,1,1,2,2,2000,2000,4000),
+(4,1,1,2,2,500,1000,1500),
+(5,1,1,2,2,700,1000,1700),
+(6,1,1,2,2,2000,500,2500),
+(7,1,1,2,2,2000,1000,3000),
+(8,1,1,2,2,2000,1000,3000),
+(9,1,1,2,2,2000,1000,3000),
+(10,1,1,2,2,2000,1000,3000),
+(11,1,1,2,2,2000,1000,3000),
+(12,1,1,2,2,2000,1000,3000)
+;
