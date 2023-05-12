@@ -8,8 +8,8 @@ Això és l'explicació del projecte:
 
 Tenim 3 tipus de races:
 
-— Humans.
+- Humans.
 
-— Elfs.
+- Elfs.
 
-— Nans.
+- Nans.
