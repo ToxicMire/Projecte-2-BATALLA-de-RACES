@@ -20,5 +20,10 @@ Tenim 3 tipus de races:
 Contacte:
 
 - Mireia Lopez
-  >Xd
-- 
+  >Correu electronic - correo.cf@iesesteveterradas.cat
+  
+- Claudia Moyano
+  >Correu electronic - correo.cf@iesesteveterradas.cat
+  
+- Pau Rius
+  >Correu electronic - correo.cf@iesesteveterradas.cat
