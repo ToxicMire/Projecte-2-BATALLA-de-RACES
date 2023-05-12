@@ -15,15 +15,10 @@ Tenim 3 tipus de races:
 - Nans.
 
 
+## Contacte
 
+Mireia Lopez - correo.cf@iesesteveterradas.cat
 
-Contacte:
+Claudia Moyano - correo.cf@iesesteveterradas.cat
 
-- Mireia Lopez
-  >Correu electronic - correo.cf@iesesteveterradas.cat
-  
-- Claudia Moyano
-  >Correu electronic - correo.cf@iesesteveterradas.cat
-  
-- Pau Rius
-  >Correu electronic - correo.cf@iesesteveterradas.cat
+Pau Rius - correo.cf@iesesteveterradas.cat
