@@ -19,6 +19,6 @@ Tenim 3 tipus de races:
 
 Mireia Lopez - correo.cf@iesesteveterradas.cat
 
-Claudia Moyano - correo.cf@iesesteveterradas.cat
+Claudia Moyano - cmoyanoherrerias.cf@iesesteveterradas.cat
 
-Pau Rius - correo.cf@iesesteveterradas.cat
+Pau Rius - priusnoriega.cf@iesesteveterradas.cat
