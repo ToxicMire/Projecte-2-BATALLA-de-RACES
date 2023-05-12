@@ -1,4 +1,4 @@
-# Projecte-3-BATALLA-de-RACES
+# BATALLA-de-RACES
 
 Aquest és el Github dedicat al `projecte número 3` del Grau Superior de Disseny d'Aplicacions Web i Nultiplataforma.
 
