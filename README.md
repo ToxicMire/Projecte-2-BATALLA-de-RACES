@@ -13,3 +13,12 @@ Tenim 3 tipus de races:
 - Elfs.
 
 - Nans.
+
+
+
+
+Contacte:
+
+- Mireia Lopez
+  >Xd
+- 
