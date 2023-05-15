@@ -8,7 +8,6 @@ class Ranking extends JFrame{
     private JScrollPane scroll;
 
     public Ranking() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         String[] nomCol = {"POSITION", "USERNAME", "BATTLE POINTS", "INJURIES TAKEN", "INJURIES SUFFRED"};
         int position = 1;
         int index = 0;
@@ -16,8 +15,8 @@ class Ranking extends JFrame{
 
         // BBDD connections.
         String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
-        String usuario = "root";
-        String pass = "1234";
+        String usuario = "admin";
+        String pass = "admin123";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,6 +32,7 @@ class Ranking extends JFrame{
                         "" + rs.getInt(3), "" + rs.getInt(4)};
 
                 table = new JTable(data, nomCol);
+                table.setEnabled(false);
                 table.setRowHeight(50);
                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                 scroll = new JScrollPane(table);
@@ -64,7 +64,7 @@ class Ranking extends JFrame{
         this.setTitle("Ranking");
         this.setSize(700, 500);
         this.setResizable(false);
-        setVisible(false);
+        this.setVisible(true);
 
         // MIDDLE SCREEN ———————————————————————————————————————————————————————————————————————————————————————————————
         // Here we configure the game to start up in the middle of the screen.

@@ -12,12 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 
 public class pruebas {
 	public static void main(String[] args) {
-		new FrameMain();
+		new FrameMain("Pepe");
 	}
 }
 
@@ -27,8 +28,9 @@ class FrameMain extends JFrame {
 	private JPanel panelPlayer,panelPlayerProgressBar,panelPlayerCharacter,panelPlayerGeneralStats,panelPlayerWeapon,panelPlayerStats,panelPlayerStatsText,panelPlayerStatsBars,
 	panelBot,panelBotProgressBar,panelBotCharacter,panelBotGeneralStats,panelBotWeapon,panelBotStats,panelBotStatsText,panelBotStatsBars;
 
-	private JButton buttonChooseCharacter,buttonChooseWeapon,buttonRanking,buttonFight,buttonClearConsole;
+	private JButton buttonChooseCharacter,buttonChooseWeapon,buttonRanking,buttonFight,buttonClearConsole,buttonNext;
 	private JTextArea textArea;
+	JScrollPane scrollPane;
 	private JLabel textPlayer,textPlayerPower,textPlayerAgility,textPlayerSpeed,textPlayerDefense,
 	textBot,textBotPower,textBotAgility,textBotSpeed,textBotDefense;
 
@@ -42,7 +44,11 @@ class FrameMain extends JFrame {
 	private JButton[] warriorsArray,weaponsArray;
 	private WarriorContainer warriorPlayer,warriorBot;
 	private WeaponContainer weaponPlayer,weaponBot;
+	private WarriorContainer[] warriorPlayerAndBotList = new WarriorContainer[2];
+	private WeaponContainer[] weaponPlayerAndBotList = new WeaponContainer[2];
+	private int actualWarriorToAttack = 0,actualWarriorToDefend = 1;
 
+	private Random random = new Random();
 	private boolean warriorSelected = false,weaponSelected = false;
 
 	//Connections BBDD
@@ -50,18 +56,13 @@ class FrameMain extends JFrame {
 	String usuario = "admin";
 	String pass = "admin123";
 
-
-
-	public FrameMain() {
+	public FrameMain(String playerName) {
 		//Variables
 		//Panels
 		panel = new JPanel();
-		panel.setBackground(Color.black);
-		
+
 		panelMain = new JPanel();
 		panelMain.setLayout(new BoxLayout(panelMain,BoxLayout.Y_AXIS));
-		
-		panelMain.setBackground(Color.black);
 
 		panelWarriors = new JPanel();
 		panelWarriors.setLayout(new GridLayout(3,3));
@@ -109,8 +110,12 @@ class FrameMain extends JFrame {
 		buttonRanking = new JButton("Ranking");
 		buttonFight= new JButton("Fight");
 		buttonClearConsole = new JButton("Clear Console");
+		buttonNext = new JButton("Next Round");
+		buttonNext.setVisible(false);
 		//TextArea
 		textArea = new JTextArea(5,100);
+		//Scroll
+		scrollPane = new JScrollPane(textArea);
 		//ImageIcon
 		imagePlayerCharacter = new ImageIcon("./images/X.png");
 		imageYouWeapon = new ImageIcon("./images/XSmall.png");
@@ -239,60 +244,60 @@ class FrameMain extends JFrame {
 
 		//panelCharacters
 		panelCharacters.add(panelPlayer,BorderLayout.WEST);
-		panelPlayer.setLayout(new BoxLayout(panelPlayer,BoxLayout.Y_AXIS));
-		panelPlayer.add(textPlayer);
-		panelPlayer.add(panelPlayerProgressBar);
-		panelPlayerProgressBar.add(progressBarPlayer);
-		panelPlayer.add(panelPlayerCharacter);
-		panelPlayerCharacter.add(jlabelYouCharacter);
-		panelPlayer.add(panelPlayerGeneralStats);
+			panelPlayer.setLayout(new BoxLayout(panelPlayer,BoxLayout.Y_AXIS));
+			panelPlayer.add(textPlayer);
+			panelPlayer.add(panelPlayerProgressBar);
+				panelPlayerProgressBar.add(progressBarPlayer);
+			panelPlayer.add(panelPlayerCharacter);
+				panelPlayerCharacter.add(jlabelYouCharacter);
+			panelPlayer.add(panelPlayerGeneralStats);
+				panelPlayerGeneralStats.add(panelPlayerWeapon);
+					panelPlayerWeapon.add(jlabelYouWeapon);
+				panelPlayerGeneralStats.add(panelPlayerStats);
 
-		panelPlayerGeneralStats.add(panelPlayerWeapon);
-		panelPlayerWeapon.add(jlabelYouWeapon);
-		panelPlayerGeneralStats.add(panelPlayerStats);
+				panelPlayerStats.add(panelPlayerStatsText,BorderLayout.WEST);
+					panelPlayerStatsText.add(textPlayerPower);
+					panelPlayerStatsText.add(textPlayerAgility);
+					panelPlayerStatsText.add(textPlayerSpeed);
+					panelPlayerStatsText.add(textPlayerDefense);
 
-		panelPlayerStats.add(panelPlayerStatsText,BorderLayout.WEST);
-		panelPlayerStatsText.add(textPlayerPower);
-		panelPlayerStatsText.add(textPlayerAgility);
-		panelPlayerStatsText.add(textPlayerSpeed);
-		panelPlayerStatsText.add(textPlayerDefense);
-
-		panelPlayerStats.add(panelPlayerStatsBars,BorderLayout.EAST);
-		panelPlayerStatsBars.add(progressBarPlayerPower);
-		panelPlayerStatsBars.add(progressBarPlayerAgility);
-		panelPlayerStatsBars.add(progressBarPlayerSpeed);
-		panelPlayerStatsBars.add(progressBarPlayerDefense);
+				panelPlayerStats.add(panelPlayerStatsBars,BorderLayout.EAST);
+					panelPlayerStatsBars.add(progressBarPlayerPower);
+					panelPlayerStatsBars.add(progressBarPlayerAgility);
+					panelPlayerStatsBars.add(progressBarPlayerSpeed);
+					panelPlayerStatsBars.add(progressBarPlayerDefense);
 
 		panelCharacters.add(panelBot,BorderLayout.EAST);
-		panelBot.setLayout(new BoxLayout(panelBot,BoxLayout.Y_AXIS));
-		panelBot.add(textBot);
-		panelBot.add(panelBotProgressBar);
-		panelBotProgressBar.add(progressBarBot);
-		panelBot.add(panelBotCharacter);
-		panelBotCharacter.add(jlabelBotCharacter);
-		panelBot.add(panelBotGeneralStats);
+			panelBot.setLayout(new BoxLayout(panelBot,BoxLayout.Y_AXIS));
+			panelBot.add(textBot);
+			panelBot.add(panelBotProgressBar);
+				panelBotProgressBar.add(progressBarBot);
+			panelBot.add(panelBotCharacter);
+				panelBotCharacter.add(jlabelBotCharacter);
+			panelBot.add(panelBotGeneralStats);
 
-		panelBotGeneralStats.add(panelBotWeapon);
-		panelBotWeapon.add(jlabelBotWeapon);
-		panelBotGeneralStats.add(panelBotStats);
-		panelBotStats.add(panelBotStatsText,BorderLayout.WEST);
-		panelBotStatsText.add(textBotPower);
-		panelBotStatsText.add(textBotAgility);
-		panelBotStatsText.add(textBotSpeed);
-		panelBotStatsText.add(textBotDefense);
+				panelBotGeneralStats.add(panelBotWeapon);
+					panelBotWeapon.add(jlabelBotWeapon);
+				panelBotGeneralStats.add(panelBotStats);
+					panelBotStats.add(panelBotStatsText,BorderLayout.WEST);
+						panelBotStatsText.add(textBotPower);
+						panelBotStatsText.add(textBotAgility);
+						panelBotStatsText.add(textBotSpeed);
+						panelBotStatsText.add(textBotDefense);
 
-		panelBotStats.add(panelBotStatsBars,BorderLayout.EAST);
-		panelBotStatsBars.add(progressBarBotPower);
-		panelBotStatsBars.add(progressBarBotAgility);
-		panelBotStatsBars.add(progressBarBotSpeed);
-		panelBotStatsBars.add(progressBarBotDefense);
+					panelBotStats.add(panelBotStatsBars,BorderLayout.EAST);
+						panelBotStatsBars.add(progressBarBotPower);
+						panelBotStatsBars.add(progressBarBotAgility);
+						panelBotStatsBars.add(progressBarBotSpeed);
+						panelBotStatsBars.add(progressBarBotDefense);
 
 		//panelButtons2
+		panelButtons2.add(buttonNext);
 		panelButtons2.add(buttonFight);
 		panelButtons2.add(buttonClearConsole);
 
 		//panelTextArea
-		panelTextArea.add(textArea);
+		panelTextArea.add(scrollPane);
 
 
 		//Events
@@ -446,7 +451,7 @@ class FrameMain extends JFrame {
 					panelWeapons.setVisible(true);
 
 				}else {
-
+					JOptionPane.showMessageDialog(panelMain, "You cannot choose a weapon without having chosen a warrior.","",JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -457,7 +462,6 @@ class FrameMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Ranking();
-				
 			}
 		});
 
@@ -517,8 +521,47 @@ class FrameMain extends JFrame {
 						progressBarBotAgility.setValue(agility);
 						progressBarBotSpeed.setValue(speed);
 						progressBarBotDefense.setValue(defense);
-						
 
+						//Hide buttonn
+						panelButtons1.setVisible(false);
+						buttonFight.setVisible(false);
+
+						buttonNext.setVisible(true);
+
+
+						//Chose the first warrior to attack
+						warriorPlayerAndBotList[0] = warriorPlayer;
+						warriorPlayerAndBotList[1] = warriorBot;
+
+						weaponPlayerAndBotList[0] = weaponPlayer;
+						weaponPlayerAndBotList[1] = weaponBot;
+
+						int playerSpeed = warriorPlayer.getWarrioirSpeed() + weaponPlayer.getWeaponSpeed(),botSpeed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+						int playerAgility = warriorPlayer.getWarriorAgility(),botAgility = warriorBot.getWarriorAgility();
+
+						if(playerSpeed > botSpeed){
+							actualWarriorToAttack = 0;
+						}else if(playerSpeed < botSpeed){
+							actualWarriorToAttack = 1;
+						}else{
+							if(playerAgility > botAgility){
+								actualWarriorToAttack = 0;
+							}else if(playerAgility < botAgility){
+								actualWarriorToAttack = 1;
+							}else{
+								actualWarriorToAttack = random.nextInt(2);
+							}
+						}
+
+						if(actualWarriorToAttack == 0){
+							actualWarriorToDefend = 1;
+						}else{
+							actualWarriorToDefend = 0;
+						}
+
+						String text = textArea.getText()+"\nThe first attacker is " + (actualWarriorToAttack == 0 ? playerName:"Bot") + "\n";
+						textArea.setText(text);
+						
 					} catch (ClassNotFoundException e1) {
 						System.out.println("Driver no se ha cargado correctamente!!");		
 					} catch (SQLException e1) {
@@ -526,12 +569,85 @@ class FrameMain extends JFrame {
 						e1.printStackTrace();
 					}
 				}else {
-
+					JOptionPane.showMessageDialog(panelMain, "You cannot fight without having chosen a fighter and a weapon.","",JOptionPane.ERROR_MESSAGE);
 				}
 
 
 
 			}
+		});
+
+		buttonNext.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textArea.getText();
+
+				int tryAtacRandom = random.nextInt(101) + 1;
+				int tryDefendRandom;
+
+				if(warriorPlayerAndBotList[actualWarriorToAttack].getWarriorAgility() * 10 < tryAtacRandom){
+					text = text + (actualWarriorToAttack == 0 ? playerName:"Bot") +" missed.\n";
+					textArea.setText(text);
+				}else{
+					text = text + (actualWarriorToAttack == 0 ? playerName:"Bot") +" attacks the defender.\n";
+					textArea.setText(text);
+
+					tryDefendRandom = random.nextInt(51) + 1;
+					if(warriorPlayerAndBotList[actualWarriorToDefend].getWarriorAgility() < tryDefendRandom){
+						int attackerStrength = warriorPlayerAndBotList[actualWarriorToAttack].getWarriorStrength();
+						int attackerWeaponStrength = + weaponPlayerAndBotList[actualWarriorToAttack].getWeaponStrength();
+						int defenderStrength = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorDefense();
+						int damage = attackerStrength + attackerWeaponStrength - defenderStrength;
+
+						text = text + (actualWarriorToDefend == 0 ? playerName:"Bot") +" has taken " + damage + " points of damage.\n";
+						textArea.setText(text);
+
+						warriorPlayerAndBotList[actualWarriorToDefend].subtractLife(damage);
+
+						if(actualWarriorToDefend == 0){
+							int maxHP = warriorPlayerAndBotList[actualWarriorToDefend].getMaxHP();
+							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
+							int percentage = actualHP * 100 / maxHP;
+							progressBarPlayer.setValue(percentage);
+						}else{
+							int maxHP = warriorPlayerAndBotList[actualWarriorToDefend].getMaxHP();
+							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
+							int percentage = actualHP * 100 / maxHP;
+							progressBarBot.setValue(percentage);
+						}
+
+					}else{
+						text = text + (actualWarriorToDefend == 0 ? playerName:"Bot") +" defends.\n";
+						textArea.setText(text);
+					}
+				}
+
+
+
+				if(warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP() <= 0){
+					System.out.println("xd");
+				}
+
+
+				int attackerSpeed = warriorPlayerAndBotList[actualWarriorToAttack].getWarrioirSpeed() + weaponPlayerAndBotList[actualWarriorToAttack].getWeaponSpeed();
+				int defensorSpeed =  warriorPlayerAndBotList[actualWarriorToDefend].getWarrioirSpeed() + weaponPlayerAndBotList[actualWarriorToDefend].getWeaponSpeed();
+
+				
+				if(attackerSpeed <= defensorSpeed){
+					if(actualWarriorToAttack == 0){actualWarriorToAttack = 1; actualWarriorToDefend = 0;}
+					else{actualWarriorToAttack = 0; actualWarriorToDefend = 1;}
+				}else{
+					int randomNumber = random.nextInt(101) + 1;
+					if((attackerSpeed - defensorSpeed) * 10 < randomNumber){
+						if(actualWarriorToAttack == 0){actualWarriorToAttack = 1; actualWarriorToDefend = 0;}
+						else{actualWarriorToAttack = 0; actualWarriorToDefend = 1;}
+					}
+				}
+				
+
+
+
+			} 
 		});
 
 		//AddPanels

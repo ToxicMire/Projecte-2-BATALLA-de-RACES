@@ -1,6 +1,6 @@
 
 public class WarriorContainer {
-	private int warriorId,warriorHP,warriorStrength,warriorDefense,warriorAgility,warrioirSpeed,warriorPoints;
+	private int warriorId,warriorHP,warriorStrength,warriorDefense,warriorAgility,warrioirSpeed,warriorPoints,maxHP;
 	private String warriorName,warriorStringPathImage,warriorRace;
 	
 	public WarriorContainer(int warriorId, int warriorHP, int warriorStrength, int warriorDefense, int warriorAgility,
@@ -17,6 +17,7 @@ public class WarriorContainer {
 		this.warriorName = warriorName;
 		this.warriorStringPathImage = warriorStringPathImage;
 		this.warriorRace = warriorRace;
+		this.maxHP = warriorHP;
 	}
 
 	@Override
@@ -108,9 +109,12 @@ public class WarriorContainer {
 		this.warriorRace = warriorRace;
 	}
 	
-	
-	
-	
-	
+	public void subtractLife(int hp){
+		this.warriorHP = this.warriorHP - hp;
+	}
+
+	public int getMaxHP(){
+		return this.maxHP;
+	}
 	
 }
