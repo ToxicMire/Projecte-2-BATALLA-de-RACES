@@ -117,4 +117,8 @@ public class WarriorContainer {
 		return this.maxHP;
 	}
 	
+	public void setMaxHP() {
+		this.warriorHP = this.getMaxHP();
+	}
+	
 }

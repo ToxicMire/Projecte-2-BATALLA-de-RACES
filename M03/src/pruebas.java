@@ -18,23 +18,23 @@ import java.util.Random;
 import javax.swing.*;
 
 public class pruebas {
-	
+
 	void saveBattle(String playerName,int playerWarriorId,int playerWeaponId,int botWarriorId,int botWeaponId,int injuriesCaused,int injuriesSuffred, int battlePoints) {
 		String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
 		String usuario = "admin";
-		String pass = "admin123";
-		
+		String pass = "P@ssw0rd!";
+
 		String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME from WARRIORS w inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID;";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
-			
+
 			String update = "INSERT INTO BATTLE (PLAYER_ID,WARRIOR_ID,WARRIOR_WEAPON_ID,OPPONENT_ID,OPPONENT_WEAPON_ID,INJURIES_CAUSED,INJURIES_SUFFERED,BATTLE_POINTS) "
 					+ "VALUES ((SELECT PLAYER_ID FROM PLAYERS WHERE PLAYER_NAME = ?),?,?,?,?,?,?,?)";
-			
+
 			PreparedStatement ps = conn.prepareStatement(update);
-			
+
 			ps.setString(1, playerName);
 			ps.setInt(2, playerWarriorId);
 			ps.setInt(3, playerWeaponId);
@@ -44,8 +44,8 @@ public class pruebas {
 			ps.setInt(7, injuriesSuffred);
 			ps.setInt(8, battlePoints);
 			ps.executeUpdate();
-			
-			
+
+
 
 		} catch (ClassNotFoundException e1) {
 			System.out.println("Driver no se ha cargado correctamente!!");		
@@ -54,7 +54,7 @@ public class pruebas {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new FrameMain("Pepe");
 	}
@@ -89,14 +89,14 @@ class FrameMain extends JFrame {
 	private boolean playerWin = false;
 
 	private Random random = new Random();
-	private boolean warriorSelected = false,weaponSelected = false;
-	
+	private boolean warriorSelected = false,weaponSelected = false, botNotRandomized = true;
+
 	private pruebas functions = new pruebas();
 
 	//Connections BBDD
 	String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
 	String usuario = "admin";
-	String pass = "admin123";
+	String pass = "P@ssw0rd!";
 
 	public FrameMain(String playerName) {
 		//Variables
@@ -286,52 +286,52 @@ class FrameMain extends JFrame {
 
 		//panelCharacters
 		panelCharacters.add(panelPlayer,BorderLayout.WEST);
-			panelPlayer.setLayout(new BoxLayout(panelPlayer,BoxLayout.Y_AXIS));
-			panelPlayer.add(textPlayer);
-			panelPlayer.add(panelPlayerProgressBar);
-				panelPlayerProgressBar.add(progressBarPlayer);
-			panelPlayer.add(panelPlayerCharacter);
-				panelPlayerCharacter.add(jlabelYouCharacter);
-			panelPlayer.add(panelPlayerGeneralStats);
-				panelPlayerGeneralStats.add(panelPlayerWeapon);
-					panelPlayerWeapon.add(jlabelYouWeapon);
-				panelPlayerGeneralStats.add(panelPlayerStats);
+		panelPlayer.setLayout(new BoxLayout(panelPlayer,BoxLayout.Y_AXIS));
+		panelPlayer.add(textPlayer);
+		panelPlayer.add(panelPlayerProgressBar);
+		panelPlayerProgressBar.add(progressBarPlayer);
+		panelPlayer.add(panelPlayerCharacter);
+		panelPlayerCharacter.add(jlabelYouCharacter);
+		panelPlayer.add(panelPlayerGeneralStats);
+		panelPlayerGeneralStats.add(panelPlayerWeapon);
+		panelPlayerWeapon.add(jlabelYouWeapon);
+		panelPlayerGeneralStats.add(panelPlayerStats);
 
-				panelPlayerStats.add(panelPlayerStatsText,BorderLayout.WEST);
-					panelPlayerStatsText.add(textPlayerPower);
-					panelPlayerStatsText.add(textPlayerAgility);
-					panelPlayerStatsText.add(textPlayerSpeed);
-					panelPlayerStatsText.add(textPlayerDefense);
+		panelPlayerStats.add(panelPlayerStatsText,BorderLayout.WEST);
+		panelPlayerStatsText.add(textPlayerPower);
+		panelPlayerStatsText.add(textPlayerAgility);
+		panelPlayerStatsText.add(textPlayerSpeed);
+		panelPlayerStatsText.add(textPlayerDefense);
 
-				panelPlayerStats.add(panelPlayerStatsBars,BorderLayout.EAST);
-					panelPlayerStatsBars.add(progressBarPlayerPower);
-					panelPlayerStatsBars.add(progressBarPlayerAgility);
-					panelPlayerStatsBars.add(progressBarPlayerSpeed);
-					panelPlayerStatsBars.add(progressBarPlayerDefense);
+		panelPlayerStats.add(panelPlayerStatsBars,BorderLayout.EAST);
+		panelPlayerStatsBars.add(progressBarPlayerPower);
+		panelPlayerStatsBars.add(progressBarPlayerAgility);
+		panelPlayerStatsBars.add(progressBarPlayerSpeed);
+		panelPlayerStatsBars.add(progressBarPlayerDefense);
 
 		panelCharacters.add(panelBot,BorderLayout.EAST);
-			panelBot.setLayout(new BoxLayout(panelBot,BoxLayout.Y_AXIS));
-			panelBot.add(textBot);
-			panelBot.add(panelBotProgressBar);
-				panelBotProgressBar.add(progressBarBot);
-			panelBot.add(panelBotCharacter);
-				panelBotCharacter.add(jlabelBotCharacter);
-			panelBot.add(panelBotGeneralStats);
+		panelBot.setLayout(new BoxLayout(panelBot,BoxLayout.Y_AXIS));
+		panelBot.add(textBot);
+		panelBot.add(panelBotProgressBar);
+		panelBotProgressBar.add(progressBarBot);
+		panelBot.add(panelBotCharacter);
+		panelBotCharacter.add(jlabelBotCharacter);
+		panelBot.add(panelBotGeneralStats);
 
-				panelBotGeneralStats.add(panelBotWeapon);
-					panelBotWeapon.add(jlabelBotWeapon);
-				panelBotGeneralStats.add(panelBotStats);
-					panelBotStats.add(panelBotStatsText,BorderLayout.WEST);
-						panelBotStatsText.add(textBotPower);
-						panelBotStatsText.add(textBotAgility);
-						panelBotStatsText.add(textBotSpeed);
-						panelBotStatsText.add(textBotDefense);
+		panelBotGeneralStats.add(panelBotWeapon);
+		panelBotWeapon.add(jlabelBotWeapon);
+		panelBotGeneralStats.add(panelBotStats);
+		panelBotStats.add(panelBotStatsText,BorderLayout.WEST);
+		panelBotStatsText.add(textBotPower);
+		panelBotStatsText.add(textBotAgility);
+		panelBotStatsText.add(textBotSpeed);
+		panelBotStatsText.add(textBotDefense);
 
-					panelBotStats.add(panelBotStatsBars,BorderLayout.EAST);
-						panelBotStatsBars.add(progressBarBotPower);
-						panelBotStatsBars.add(progressBarBotAgility);
-						panelBotStatsBars.add(progressBarBotSpeed);
-						panelBotStatsBars.add(progressBarBotDefense);
+		panelBotStats.add(panelBotStatsBars,BorderLayout.EAST);
+		panelBotStatsBars.add(progressBarBotPower);
+		panelBotStatsBars.add(progressBarBotAgility);
+		panelBotStatsBars.add(progressBarBotSpeed);
+		panelBotStatsBars.add(progressBarBotDefense);
 
 		//panelButtons2
 		panelButtons2.add(buttonNext);
@@ -423,7 +423,7 @@ class FrameMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if(warriorSelected) {
-					
+
 					panelMain.setVisible(false);
 
 					ImageIcon miIcono;
@@ -498,9 +498,9 @@ class FrameMain extends JFrame {
 
 			}
 		});
-		
+
 		buttonRanking.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Ranking();
@@ -512,104 +512,109 @@ class FrameMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(warriorSelected && weaponSelected) {
-					//Query select random warrior for a bot
-					String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME \n"
-							+ "from WARRIORS w \n"
-							+ "inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID\n"
-							+ "order by rand()\n"
-							+ "limit 1;";
 
-					try {
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
-						Statement stmnt = conn.createStatement();
-
-						ResultSet rs = stmnt.executeQuery(query);
-
-						rs.next();
-
-						warriorBot = new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
-								, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10));
-						
-						
-						//Select random weapon for a bot
-						query = "select w.WEAPON_ID,w.WEAPON_POINTS,w.WEAPON_STRENGTH,w.WEAPON_SPEED,w.WEAPON_NAME,w.WEAPON_IMAGE_PATH \n"
-								+ "from WEAPONS w \n"
-								+ "inner join WEAPONS_AVAILABLE wa on wa.WEAPON_ID=w.WEAPON_ID\n"
-								+ "where wa.RACE_ID = (select RACE_ID from RACES where RACE_NAME = '"+warriorBot.getWarriorRace()+"')\n"
+					if(botNotRandomized) {
+						//Query select random warrior for a bot
+						String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME \n"
+								+ "from WARRIORS w \n"
+								+ "inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID\n"
 								+ "order by rand()\n"
 								+ "limit 1;";
-						
-						rs = stmnt.executeQuery(query);
-						
-						rs.next();
-						
-						weaponBot = new WeaponContainer(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getString(6));
-						
-						//Set bot images
-						ImageIcon warrioirImage = new ImageIcon("./images/warriors/big/"+warriorBot.getWarriorStringPathImage());
-						ImageIcon weaponImage = new ImageIcon("./images/weapons/redimen/"+weaponBot.getWeaponImagePath());
-						
-						jlabelBotCharacter.setIcon(warrioirImage);
-						jlabelBotWeapon.setIcon(weaponImage);
-						
-						//Set bot stats
-						int power = warriorBot.getWarriorStrength() + weaponBot.getWeaponStrength();
-						int agility = warriorBot.getWarriorAgility();
-						int speed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
-						int defense = warriorBot.getWarriorDefense();
 
-						progressBarBotPower.setValue(power);
-						progressBarBotAgility.setValue(agility);
-						progressBarBotSpeed.setValue(speed);
-						progressBarBotDefense.setValue(defense);
+						try {
+							Class.forName("com.mysql.cj.jdbc.Driver");
+							Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
+							Statement stmnt = conn.createStatement();
 
-						//Hide buttonn
-						panelButtons1.setVisible(false);
-						buttonFight.setVisible(false);
+							ResultSet rs = stmnt.executeQuery(query);
 
-						buttonNext.setVisible(true);
+							rs.next();
+
+							warriorBot = new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
+									, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10));
 
 
-						//Chose the first warrior to attack
-						warriorPlayerAndBotList[0] = warriorPlayer;
-						warriorPlayerAndBotList[1] = warriorBot;
+							//Select random weapon for a bot
+							query = "select w.WEAPON_ID,w.WEAPON_POINTS,w.WEAPON_STRENGTH,w.WEAPON_SPEED,w.WEAPON_NAME,w.WEAPON_IMAGE_PATH \n"
+									+ "from WEAPONS w \n"
+									+ "inner join WEAPONS_AVAILABLE wa on wa.WEAPON_ID=w.WEAPON_ID\n"
+									+ "where wa.RACE_ID = (select RACE_ID from RACES where RACE_NAME = '"+warriorBot.getWarriorRace()+"')\n"
+									+ "order by rand()\n"
+									+ "limit 1;";
 
-						weaponPlayerAndBotList[0] = weaponPlayer;
-						weaponPlayerAndBotList[1] = weaponBot;
+							rs = stmnt.executeQuery(query);
 
-						int playerSpeed = warriorPlayer.getWarrioirSpeed() + weaponPlayer.getWeaponSpeed(),botSpeed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
-						int playerAgility = warriorPlayer.getWarriorAgility(),botAgility = warriorBot.getWarriorAgility();
+							rs.next();
 
-						if(playerSpeed > botSpeed){
+							weaponBot = new WeaponContainer(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getString(6));
+
+							//Set bot images
+							ImageIcon warrioirImage = new ImageIcon("./images/warriors/big/"+warriorBot.getWarriorStringPathImage());
+							ImageIcon weaponImage = new ImageIcon("./images/weapons/redimen/"+weaponBot.getWeaponImagePath());
+
+							jlabelBotCharacter.setIcon(warrioirImage);
+							jlabelBotWeapon.setIcon(weaponImage);
+
+							//Set bot stats
+							int power = warriorBot.getWarriorStrength() + weaponBot.getWeaponStrength();
+							int agility = warriorBot.getWarriorAgility();
+							int speed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+							int defense = warriorBot.getWarriorDefense();
+
+							progressBarBotPower.setValue(power);
+							progressBarBotAgility.setValue(agility);
+							progressBarBotSpeed.setValue(speed);
+							progressBarBotDefense.setValue(defense);
+							
+							botNotRandomized = false;
+
+						} catch (ClassNotFoundException e1) {
+							System.out.println("Driver no se ha cargado correctamente!!");		
+						} catch (SQLException e1) {
+							System.out.println("Se ha lanzado una SQLException!!");
+							e1.printStackTrace();
+						}
+					}
+
+					//Hide buttonn
+					panelButtons1.setVisible(false);
+					buttonFight.setVisible(false);
+
+					buttonNext.setVisible(true);
+
+
+					//Chose the first warrior to attack
+					warriorPlayerAndBotList[0] = warriorPlayer;
+					warriorPlayerAndBotList[1] = warriorBot;
+
+					weaponPlayerAndBotList[0] = weaponPlayer;
+					weaponPlayerAndBotList[1] = weaponBot;
+
+					int playerSpeed = warriorPlayer.getWarrioirSpeed() + weaponPlayer.getWeaponSpeed(),botSpeed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+					int playerAgility = warriorPlayer.getWarriorAgility(),botAgility = warriorBot.getWarriorAgility();
+
+					if(playerSpeed > botSpeed){
+						actualWarriorToAttack = 0;
+					}else if(playerSpeed < botSpeed){
+						actualWarriorToAttack = 1;
+					}else{
+						if(playerAgility > botAgility){
 							actualWarriorToAttack = 0;
-						}else if(playerSpeed < botSpeed){
+						}else if(playerAgility < botAgility){
 							actualWarriorToAttack = 1;
 						}else{
-							if(playerAgility > botAgility){
-								actualWarriorToAttack = 0;
-							}else if(playerAgility < botAgility){
-								actualWarriorToAttack = 1;
-							}else{
-								actualWarriorToAttack = random.nextInt(2);
-							}
+							actualWarriorToAttack = random.nextInt(2);
 						}
-
-						if(actualWarriorToAttack == 0){
-							actualWarriorToDefend = 1;
-						}else{
-							actualWarriorToDefend = 0;
-						}
-
-						String text = textArea.getText()+"\nThe first attacker is " + (actualWarriorToAttack == 0 ? playerName:"Bot") + "\n";
-						textArea.setText(text);
-						
-					} catch (ClassNotFoundException e1) {
-						System.out.println("Driver no se ha cargado correctamente!!");		
-					} catch (SQLException e1) {
-						System.out.println("Se ha lanzado una SQLException!!");
-						e1.printStackTrace();
 					}
+
+					if(actualWarriorToAttack == 0){
+						actualWarriorToDefend = 1;
+					}else{
+						actualWarriorToDefend = 0;
+					}
+
+					String text = textArea.getText()+"\nThe first attacker is " + (actualWarriorToAttack == 0 ? playerName:"Bot") + "\n";
+					textArea.setText(text);
 				}else {
 					JOptionPane.showMessageDialog(panelMain, "You cannot fight without having chosen a fighter and a weapon.","",JOptionPane.ERROR_MESSAGE);
 				}
@@ -651,14 +656,14 @@ class FrameMain extends JFrame {
 							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
 							int percentage = actualHP * 100 / maxHP;
 							progressBarPlayer.setValue(percentage);
-							
+
 							injuriesSuffred += damage;
 						}else{
 							int maxHP = warriorPlayerAndBotList[actualWarriorToDefend].getMaxHP();
 							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
 							int percentage = actualHP * 100 / maxHP;
 							progressBarBot.setValue(percentage);
-							
+
 							injuriesCaused += damage;
 						}
 
@@ -672,26 +677,167 @@ class FrameMain extends JFrame {
 
 				if(warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP() <= 0){
 					battlePoints += warriorBot.getWarriorPoints() + weaponBot.getWeaponPoints();
-					
-					if (actualWarriorToDefend == 0) {
-							playerWin = true;
+
+					if (actualWarriorToDefend == 1) {
+						playerWin = true;
 					}else {
 						playerWin = false;
 					}
-					int playerOption = JOptionPane.showConfirmDialog(panelMain, "Do you want to keep playing?","Game over",JOptionPane.YES_NO_OPTION);
 					
-					if(playerOption == JOptionPane.NO_OPTION) {
-						
+					int playerOption = JOptionPane.showConfirmDialog(panelMain, "Do you want to keep playing?","Game over",JOptionPane.YES_NO_OPTION);
+
+					
+					if(playerOption == JOptionPane.YES_OPTION && !playerWin) {
+						//When player loses and checks YES
+						//Part 1
 						functions.saveBattle(playerName, warriorPlayer.getWarriorId(), weaponPlayer.getWeaponId(), warriorBot.getWarriorId(), weaponBot.getWeaponId(), injuriesCaused, injuriesSuffred, battlePoints);
+						injuriesCaused = 0;
+						injuriesSuffred = 0;
+						battlePoints = 0;
+
+						//Part 2
+						warriorBot.setMaxHP();
+						progressBarBot.setValue(100);
+
+						warriorSelected = false;
+						weaponSelected = false;
+						
+						jlabelYouCharacter.setIcon(imagePlayerCharacter);
+						jlabelYouWeapon.setIcon(imageYouWeapon);
+						
+						progressBarPlayer.setValue(100);
+						progressBarPlayerPower.setValue(0);
+						progressBarPlayerAgility.setValue(0);
+						progressBarPlayerSpeed.setValue(0);
+						progressBarPlayerDefense.setValue(0);
+						
+						panelButtons1.setVisible(true);
+						buttonFight.setVisible(true);
+
+						buttonNext.setVisible(false);
+						
+						
+
+
+					}else if(playerOption == JOptionPane.YES_OPTION && playerWin) {
+						//When player wins and checks YES
+
+						//Select other bot
+						//Query select random warrior for a bot
+						String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME \n"
+								+ "from WARRIORS w \n"
+								+ "inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID\n"
+								+ "order by rand()\n"
+								+ "limit 1;";
+
+						try {
+							Class.forName("com.mysql.cj.jdbc.Driver");
+							Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
+							Statement stmnt = conn.createStatement();
+
+							ResultSet rs = stmnt.executeQuery(query);
+
+							rs.next();
+
+
+
+							warriorBot = new WarriorContainer(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)
+									, rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10));
+
+
+							//Select random weapon for a bot
+							query = "select w.WEAPON_ID,w.WEAPON_POINTS,w.WEAPON_STRENGTH,w.WEAPON_SPEED,w.WEAPON_NAME,w.WEAPON_IMAGE_PATH \n"
+									+ "from WEAPONS w \n"
+									+ "inner join WEAPONS_AVAILABLE wa on wa.WEAPON_ID=w.WEAPON_ID\n"
+									+ "where wa.RACE_ID = (select RACE_ID from RACES where RACE_NAME = '"+warriorBot.getWarriorRace()+"')\n"
+									+ "order by rand()\n"
+									+ "limit 1;";
+
+							rs = stmnt.executeQuery(query);
+
+							rs.next();
+
+							weaponBot = new WeaponContainer(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getString(5),rs.getString(6));
+
+							//Set bot images
+							ImageIcon warrioirImage = new ImageIcon("./images/warriors/big/"+warriorBot.getWarriorStringPathImage());
+							ImageIcon weaponImage = new ImageIcon("./images/weapons/redimen/"+weaponBot.getWeaponImagePath());
+
+							jlabelBotCharacter.setIcon(warrioirImage);
+							jlabelBotWeapon.setIcon(weaponImage);
+
+							//Set bot stats
+							int power = warriorBot.getWarriorStrength() + weaponBot.getWeaponStrength();
+							int agility = warriorBot.getWarriorAgility();
+							int speed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+							int defense = warriorBot.getWarriorDefense();
+
+							progressBarBot.setValue(100);
+
+							progressBarBotPower.setValue(power);
+							progressBarBotAgility.setValue(agility);
+							progressBarBotSpeed.setValue(speed);
+							progressBarBotDefense.setValue(defense);
+
+							progressBarPlayer.setValue(100);
+							warriorPlayer.setMaxHP();
+
+							//Chose the first warrior to attack
+							warriorPlayerAndBotList[0] = warriorPlayer;
+							warriorPlayerAndBotList[1] = warriorBot;
+
+							weaponPlayerAndBotList[0] = weaponPlayer;
+							weaponPlayerAndBotList[1] = weaponBot;
+
+							int playerSpeed = warriorPlayer.getWarrioirSpeed() + weaponPlayer.getWeaponSpeed(),botSpeed = warriorBot.getWarrioirSpeed() + weaponBot.getWeaponSpeed();
+							int playerAgility = warriorPlayer.getWarriorAgility(),botAgility = warriorBot.getWarriorAgility();
+
+							if(playerSpeed > botSpeed){
+								actualWarriorToAttack = 0;
+							}else if(playerSpeed < botSpeed){
+								actualWarriorToAttack = 1;
+							}else{
+								if(playerAgility > botAgility){
+									actualWarriorToAttack = 0;
+								}else if(playerAgility < botAgility){
+									actualWarriorToAttack = 1;
+								}else{
+									actualWarriorToAttack = random.nextInt(2);
+								}
+							}
+
+							if(actualWarriorToAttack == 0){
+								actualWarriorToDefend = 1;
+							}else{
+								actualWarriorToDefend = 0;
+							}
+
+							text = textArea.getText()+"\nThe first attacker is " + (actualWarriorToAttack == 0 ? playerName:"Bot") + "\n";
+							textArea.setText(text);
+
+						} catch (ClassNotFoundException e1) {
+							System.out.println("Driver no se ha cargado correctamente!!");		
+						} catch (SQLException e1) {
+							System.out.println("Se ha lanzado una SQLException!!");
+							e1.printStackTrace();
+						}
+
+
+					}else {
+						//When player loses and checks YES
+
+						//When player checks NO
+						dispose();
+						functions.saveBattle(playerName, warriorPlayer.getWarriorId(), weaponPlayer.getWeaponId(), warriorBot.getWarriorId(), weaponBot.getWeaponId(), injuriesCaused, injuriesSuffred, battlePoints);
+
 					}
-										System.out.println(JOptionPane.YES_OPTION + " - " + JOptionPane.NO_OPTION);
 				}
 
 
 				int attackerSpeed = warriorPlayerAndBotList[actualWarriorToAttack].getWarrioirSpeed() + weaponPlayerAndBotList[actualWarriorToAttack].getWeaponSpeed();
 				int defensorSpeed =  warriorPlayerAndBotList[actualWarriorToDefend].getWarrioirSpeed() + weaponPlayerAndBotList[actualWarriorToDefend].getWeaponSpeed();
 
-				
+
 				if(attackerSpeed <= defensorSpeed){
 					if(actualWarriorToAttack == 0){actualWarriorToAttack = 1; actualWarriorToDefend = 0;}
 					else{actualWarriorToAttack = 0; actualWarriorToDefend = 1;}
@@ -702,6 +848,15 @@ class FrameMain extends JFrame {
 						else{actualWarriorToAttack = 0; actualWarriorToDefend = 1;}
 					}
 				}
+			}
+		});
+		
+		buttonClearConsole.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("");
+				
 			}
 		});
 

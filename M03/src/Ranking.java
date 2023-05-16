@@ -16,7 +16,7 @@ class Ranking extends JFrame{
         // BBDD connections.
         String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
         String usuario = "admin";
-        String pass = "admin123";
+        String pass = "P@ssw0rd!";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

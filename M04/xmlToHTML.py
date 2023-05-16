@@ -1,10 +1,10 @@
 import lxml.html
 from lxml import etree
 
-document = etree.parse("template.xsl")
+document = etree.parse("./template.xsl")
 transform = etree.XSLT(document)
-source = etree.parse("battle.xml")
+source = etree.parse("./battle.xml")
 output = transform(source)
 
-output.write("index.html", pretty_print = True)
+output.write("battle.html", pretty_print = True)
 print(str(output))
