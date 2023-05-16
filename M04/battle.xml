@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<table name="battle">
+     <row>
+         <field name="1">2</field>
+         <field name="2">1</field>
+         <field name="3">1</field>
+         <field name="4">1</field>
+         <field name="5">1</field>
+         <field name="6">1</field>
+         <field name="7">100</field>
+         <field name="8">100</field>
+         <field name="9">100</field>
+     </row>
+     <row>
+         <field name="1">4</field>
+         <field name="2">3</field>
+         <field name="3">4</field>
+         <field name="4">5</field>
+         <field name="5">6</field>
+         <field name="6">7</field>
+         <field name="7">120</field>
+         <field name="8">200</field>
+         <field name="9">300</field>
+     </row>
+     <row>
+         <field name="1">5</field>
+         <field name="2">4</field>
+         <field name="3">5</field>
+         <field name="4">6</field>
+         <field name="5">7</field>
+         <field name="6">8</field>
+         <field name="7">220</field>
+         <field name="8">300</field>
+         <field name="9">400</field>
+     </row>
+</table>
