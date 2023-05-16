@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +18,43 @@ import java.util.Random;
 import javax.swing.*;
 
 public class pruebas {
+	
+	void saveBattle(String playerName,int playerWarriorId,int playerWeaponId,int botWarriorId,int botWeaponId,int injuriesCaused,int injuriesSuffred, int battlePoints) {
+		String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
+		String usuario = "admin";
+		String pass = "admin123";
+		
+		String query = "select 	w.WARRIOR_ID,r.RACE_HP,r.RACE_STRENGTH,r.RACE_DEFENSE,r.RACE_AGILITY,r.RACE_SPEED,r.RACE_POINTS,w.WARRIOR_NAME,w.WARRIOR_IMAGE_PATH,r.RACE_NAME from WARRIORS w inner join RACES r on w.WARRIORS_RACE_ID=RACE_ID;";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
+			
+			String update = "INSERT INTO BATTLE (PLAYER_ID,WARRIOR_ID,WARRIOR_WEAPON_ID,OPPONENT_ID,OPPONENT_WEAPON_ID,INJURIES_CAUSED,INJURIES_SUFFERED,BATTLE_POINTS) "
+					+ "VALUES ((SELECT PLAYER_ID FROM PLAYERS WHERE PLAYER_NAME = ?),?,?,?,?,?,?,?)";
+			
+			PreparedStatement ps = conn.prepareStatement(update);
+			
+			ps.setString(1, playerName);
+			ps.setInt(2, playerWarriorId);
+			ps.setInt(3, playerWeaponId);
+			ps.setInt(4, botWarriorId);
+			ps.setInt(5, botWeaponId);
+			ps.setInt(6, injuriesCaused);
+			ps.setInt(7, injuriesSuffred);
+			ps.setInt(8, battlePoints);
+			ps.executeUpdate();
+			
+			
+
+		} catch (ClassNotFoundException e1) {
+			System.out.println("Driver no se ha cargado correctamente!!");		
+		} catch (SQLException e1) {
+			System.out.println("Se ha lanzado una SQLException!!");
+			e1.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		new FrameMain("Pepe");
 	}
@@ -47,9 +85,13 @@ class FrameMain extends JFrame {
 	private WarriorContainer[] warriorPlayerAndBotList = new WarriorContainer[2];
 	private WeaponContainer[] weaponPlayerAndBotList = new WeaponContainer[2];
 	private int actualWarriorToAttack = 0,actualWarriorToDefend = 1;
+	private int battlePoints = 0,injuriesCaused = 0, injuriesSuffred = 0;
+	private boolean playerWin = false;
 
 	private Random random = new Random();
 	private boolean warriorSelected = false,weaponSelected = false;
+	
+	private pruebas functions = new pruebas();
 
 	//Connections BBDD
 	String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
@@ -609,11 +651,15 @@ class FrameMain extends JFrame {
 							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
 							int percentage = actualHP * 100 / maxHP;
 							progressBarPlayer.setValue(percentage);
+							
+							injuriesSuffred += damage;
 						}else{
 							int maxHP = warriorPlayerAndBotList[actualWarriorToDefend].getMaxHP();
 							int actualHP = warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP();
 							int percentage = actualHP * 100 / maxHP;
 							progressBarBot.setValue(percentage);
+							
+							injuriesCaused += damage;
 						}
 
 					}else{
@@ -625,7 +671,20 @@ class FrameMain extends JFrame {
 
 
 				if(warriorPlayerAndBotList[actualWarriorToDefend].getWarriorHP() <= 0){
-					System.out.println("xd");
+					battlePoints += warriorBot.getWarriorPoints() + weaponBot.getWeaponPoints();
+					
+					if (actualWarriorToDefend == 0) {
+							playerWin = true;
+					}else {
+						playerWin = false;
+					}
+					int playerOption = JOptionPane.showConfirmDialog(panelMain, "Do you want to keep playing?","Game over",JOptionPane.YES_NO_OPTION);
+					
+					if(playerOption == JOptionPane.NO_OPTION) {
+						
+						functions.saveBattle(playerName, warriorPlayer.getWarriorId(), weaponPlayer.getWeaponId(), warriorBot.getWarriorId(), weaponBot.getWeaponId(), injuriesCaused, injuriesSuffred, battlePoints);
+					}
+										System.out.println(JOptionPane.YES_OPTION + " - " + JOptionPane.NO_OPTION);
 				}
 
 
@@ -643,11 +702,7 @@ class FrameMain extends JFrame {
 						else{actualWarriorToAttack = 0; actualWarriorToDefend = 1;}
 					}
 				}
-				
-
-
-
-			} 
+			}
 		});
 
 		//AddPanels
