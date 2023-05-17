@@ -1,12 +1,24 @@
-# Projecte-3-BATALLA-de-RACES
+# BATALLA-de-RACES
 
-Este es el Github dedicado a el `Proyecto numero 3` del Grado Superior de diseño de aplicaciones web y multiplataforma  
+Aquest és el Github dedicat al `projecte número 3` del Grau Superior de Disseny d'Aplicacions Web i Nultiplataforma.
 
-Esto es la explicación del proyecto: 
+Això és l'explicació del projecte:
 
-Un juego de lucha con interfaz grafica, conectado a una base de datos y con un programa que gestiona la lucha.
+· Un joc de lluita amb interfície gràfica, connectat a una base de dades i amb un programa que gestiona la lluita.
 
-Tenemos 3 tipos de razas
-- Humanos
-- Elfos
-- Enanos 
+Tenim 3 tipus de races:
+
+- Humans.
+
+- Elfs.
+
+- Nans.
+
+
+## Contacte
+
+Mireia Lopez - correo.cf@iesesteveterradas.cat
+
+Claudia Moyano - cmoyanoherrerias.cf@iesesteveterradas.cat
+
+Pau Rius - priusnoriega.cf@iesesteveterradas.cat
