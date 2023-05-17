@@ -17,7 +17,8 @@ class Ranking extends JFrame{
         String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
         String usuario = "admin";
         String pass = "P@ssw0rd!";
-
+ 
+        //Configuration of the necessary queries to obtain the information of the users to be able to make a ranking.
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
@@ -47,11 +48,13 @@ class Ranking extends JFrame{
 
         MyTableCellRenderer renderer = new MyTableCellRenderer();
 
-        // Configura la tabla para utilizar el renderizador para todas las columnas
+        // Configure the table to use the renderer for all columns
         for(int i = 0; i < nomCol.length; i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(renderer);
         }
-
+        // Table —————————————————————————————————————————————————————————————————————————————————————————————————————————
+        // First of all, we create the columns of the ranking table. 
+        // We give you the correct parameters to be able to make 5 centered columns.
 
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(80);
@@ -76,19 +79,21 @@ class Ranking extends JFrame{
     
     public class MyTableCellRenderer extends DefaultTableCellRenderer {
 
-        // Constructor.
+        // Builder.
         public MyTableCellRenderer() {
             super();
         }
 
-        // Sobrescribe el método getTableCellRendererComponent para configurar el fondo de cada celda.
+        // Overrides the getTableCellRendererComponent method to set the background for each cell.
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
                                                        int row, int column) {
 
-            // Llama al método padre para configurar la apariencia básica de la celda.
+            //Call the parent method to set the basic appearance of the cell.
             Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-            // Configura el fondo de la celda según el número de fila.
+            // Sets the cell background based on the row number.
+            
             if(row == 0) {
                 cell.setBackground(Color.decode("#FFD700"));
             } else if(row == 1) {

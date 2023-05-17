@@ -1,12 +1,15 @@
-
+// WARRIOR CONTAINER ————————————————————————————————————————————————————————————————————————————————————————————————
+// First we create the class "Warrior Container" to declare the variables "warriorId", "warriorHP"...
 public class WarriorContainer {
 	private int warriorId,warriorHP,warriorStrength,warriorDefense,warriorAgility,warrioirSpeed,warriorPoints,maxHP;
 	private String warriorName,warriorStringPathImage,warriorRace;
 	
+	// Then, we create a container, where we will pass the variables previously created. Then, we configure our
+	// variables to match the names of our data base in "MySQL".
 	public WarriorContainer(int warriorId, int warriorHP, int warriorStrength, int warriorDefense, int warriorAgility,
 			int warrioirSpeed, int warriorPoints, String warriorName, String warriorStringPathImage,
 			String warriorRace) {
-		
+
 		this.warriorId = warriorId;
 		this.warriorHP = warriorHP;
 		this.warriorStrength = warriorStrength;
@@ -20,6 +23,9 @@ public class WarriorContainer {
 		this.maxHP = warriorHP;
 	}
 
+	// TOSTRING() ———————————————————————————————————————————————————————————————————————————————————————————————————
+	// Then we create "toString()", that returns a "String" that shows the names of the variables previously created,
+	// and also shows the variables.
 	@Override
 	public String toString() {
 		return "WarriorContainer [warriorId=" + warriorId + ", warriorHP=" + warriorHP + ", warriorStrength="
@@ -29,6 +35,9 @@ public class WarriorContainer {
 				+ "]";
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// SETTERS AND GETTERS ——————————————————————————————————————————————————————————————————————————————————————————
+	// First, we create the setter and getter of "warriorId".
 	public int getWarriorId() {
 		return warriorId;
 	}
@@ -37,6 +46,8 @@ public class WarriorContainer {
 		this.warriorId = warriorId;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Then, we create the setter and getter of "warriorHP".
 	public int getWarriorHP() {
 		return warriorHP;
 	}
@@ -45,6 +56,8 @@ public class WarriorContainer {
 		this.warriorHP = warriorHP;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here we create the setter and getter of "warriorStrength".
 	public int getWarriorStrength() {
 		return warriorStrength;
 	}
@@ -53,6 +66,8 @@ public class WarriorContainer {
 		this.warriorStrength = warriorStrength;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Now, we create the setter and getter of "warriorDefense".
 	public int getWarriorDefense() {
 		return warriorDefense;
 	}
@@ -61,6 +76,8 @@ public class WarriorContainer {
 		this.warriorDefense = warriorDefense;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warriorAgility".
 	public int getWarriorAgility() {
 		return warriorAgility;
 	}
@@ -69,6 +86,8 @@ public class WarriorContainer {
 		this.warriorAgility = warriorAgility;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warrioirSpeed".
 	public int getWarrioirSpeed() {
 		return warrioirSpeed;
 	}
@@ -77,6 +96,8 @@ public class WarriorContainer {
 		this.warrioirSpeed = warrioirSpeed;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warriorPoints".
 	public int getWarriorPoints() {
 		return warriorPoints;
 	}
@@ -85,6 +106,8 @@ public class WarriorContainer {
 		this.warriorPoints = warriorPoints;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warriorName".
 	public String getWarriorName() {
 		return warriorName;
 	}
@@ -93,6 +116,8 @@ public class WarriorContainer {
 		this.warriorName = warriorName;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warriorStringPathImage".
 	public String getWarriorStringPathImage() {
 		return warriorStringPathImage;
 	}
@@ -101,6 +126,8 @@ public class WarriorContainer {
 		this.warriorStringPathImage = warriorStringPathImage;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we create the setter and getter of "warriorRace".
 	public String getWarriorRace() {
 		return warriorRace;
 	}
@@ -109,16 +136,19 @@ public class WarriorContainer {
 		this.warriorRace = warriorRace;
 	}
 	
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Here, we personalize "substractLife" to substract the points and % of life.
 	public void subtractLife(int hp){
 		this.warriorHP = this.warriorHP - hp;
 	}
 
+	// ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+	// Finally, we create the setter and getter of "MaxHP".
 	public int getMaxHP(){
 		return this.maxHP;
 	}
 	
 	public void setMaxHP() {
 		this.warriorHP = this.getMaxHP();
-	}
-	
+	}	
 }

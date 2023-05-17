@@ -3,6 +3,12 @@
                                 //  ————————————————————————————————————————————
 
 import javax.swing.*; import java.awt.*; import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Frame1 extends JFrame {
 
@@ -46,7 +52,7 @@ public class Frame1 extends JFrame {
         // we will ask the player their name and what they want to do: play or exit the game.
         setTitle("BATTLE OF RACES: Welcome!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(800, 480));
+        setResizable(false);
 
         // MIDDLE SCREEN ———————————————————————————————————————————————————————————————————————————————————————————————
         // Here we configure the game to start up in the middle of the screen.
@@ -135,20 +141,49 @@ public class Frame1 extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {                
-                String texto = usernameField.getText();
-                if (texto.equals("")) {
-                	JOptionPane.showMessageDialog(usernameLabel, "Introduce un nombre de usuario", "", JOptionPane.ERROR_MESSAGE);
+                String text = usernameField.getText();
+                
+                //If the username is a space or is empty, an error message will appear.
+                if (text.equals("")) {
+                	JOptionPane.showMessageDialog(usernameLabel, "Enter a username", "", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                 	String urlDatos = "jdbc:mysql://localhost/battle_of_races?serverTimezone=UTC";
             		String usuario = "admin";
             		String pass = "P@ssw0rd!";
             		
+            		//We check if the username does not exist, we insert it into the database and we execute the Game Frame (Frame 2)
+            		String query = "SELECT IF(COUNT(*) > 0, 1, 0) AS existe FROM PLAYERS WHERE PLAYER_NAME = '" + text + "'";
+            		
+            		try {
+            			Class.forName("com.mysql.cj.jdbc.Driver");
+    					Connection conn = DriverManager.getConnection(urlDatos,usuario,pass);
+    					Statement stmnt = conn.createStatement();
+
+    					ResultSet rs = stmnt.executeQuery(query);	
+    					
+    					rs.next();
+    					
+    					if(rs.getInt(1) == 0) {
+        					String update = "INSERT INTO PLAYERS (PLAYER_NAME) VALUES('" + text + "')";
+    						
+	            			PreparedStatement ps = conn.prepareStatement(update);
+	            			ps.executeUpdate();
+    					}
+
+
+
+            		} catch (ClassNotFoundException e1) {
+            			System.out.println("Driver no se ha cargado correctamente!!");		
+            		} catch (SQLException e1) {
+            			System.out.println("Se ha lanzado una SQLException!!");
+            			e1.printStackTrace();
+            		}
             		
                 	
-                	
+                	//Make Frame 1 invisible and run Frame 2 (game)
                 	setVisible(false);
-                	new Frame2(texto);
+                	new Frame2(text);
                 }
                 
             }
@@ -175,20 +210,6 @@ public class Frame1 extends JFrame {
         frame1.setVisible(true);
     }
 
-//    class ventana extends JFrame {
-//        private FondoPanel panel = new FondoPanel("imagen.jpg");
-//
-//        public ventana() {
-//
-//            this.getContentPane().add(panel, BorderLayout.CENTER);
-//            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            this.pack();
-//            this.setLocationRelativeTo(null);
-//            this.setVisible(true);
-//        }
-//    }
-
-
     class FondoPanel extends JPanel {
         private Image imagenFondo;
 
@@ -213,4 +234,3 @@ public class Frame1 extends JFrame {
         }
     }
 }
-// TODO implementar comprovacion de usuario 
